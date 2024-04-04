@@ -542,6 +542,38 @@ class Basic_funcs():
 
             mt5.order_send(pending_order)
 
+    def get_history_data(self,from_date:datetime,nom_estrategia:str,symbol:str) -> tuple:
+        """
+        Método para obtener la historia de operaciones de una estrategia en un símbolo determinado
+
+
+        """
+        history_orders=mt5.history_deals_get(from_date, datetime.datetime.now())
+        df=pd.DataFrame(list(history_orders),columns=history_orders[0]._asdict().keys())
+        df['time'] = pd.to_datetime(df['time'], unit='s')
+
+
+        df_names = df.copy()
+        df_names = df_names[df_names['entry'] == 0]
+        df_names = df_names[['position_id','comment']]
+        df_names.columns = ['position_id','strategy_name']
+
+        df_new = df.merge(df_names, how = 'left', on = 'position_id')
+        df_new = df_new[df_new['entry'] == 1]
+
+        df_est = df_new.copy()
+        df_est = df_est[df_est['strategy_name'] == nom_estrategia]
+
+        df_est['win'] = np.where(df_est['profit'] >0,1,0)
+
+        df_est_symbol = df_est.copy()
+        df_est_symbol = df_est_symbol[df_est_symbol['symbol'] == symbol]
+
+        win_trades = df_est_symbol['win'].sum()
+        total_trades = len(df_est_symbol)
+
+        return df_est_symbol, win_trades, total_trades
+
     # def _efficient_close_trades(self,symbol,comment = None):
         
     #     if comment == None:
