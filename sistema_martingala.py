@@ -2,10 +2,10 @@ import pandas as pd
 import MetaTrader5 as mt5
 import time
 
-nombre = 67043467
-clave = 'Genttly.2022'
+nombre = 67106046
+clave = 'Sebas.123'
 servidor = 'RoboForex-ECN'
-path = r'C:\Program Files\MetaTrader 5\terminal64.exe'
+path = r'C:\Program Files\RoboForex - MetaTrader 5\terminal64.exe'
 
 mt5.initialize(login = nombre, password = clave, server = servidor, path = path)
 
@@ -44,7 +44,7 @@ def calcular_operaciones_abiertas():
     return df_positions
 
 
-simb = 'BTCUSD'
+simb = 'EURUSD'
 
 while True:
 

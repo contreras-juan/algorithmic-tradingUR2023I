@@ -72,7 +72,27 @@ for num in lista_numeros:
     print('El resultado de la suma es ',num + 1)
 
 #Crear rango para incluirlo en el for
+lista_3 = [1,2,3,4,5]
+lista_4 = [6,7,8,9,10]
 
+for cualquier_cosa in lista_3:
+    print('Este el número de la lista', cualquier_cosa)
+    print('Este el número de la lista más uno', cualquier_cosa + 1)
+
+print('Terminó el for loop')
+
+print(len(lista_3))
+print(range(len(lista_3)))
+
+# range crea algo como esto = [0,1,2,3,4]
+
+for posicion in range(len(lista_3)):
+    print('Este el número de la lista', lista_3[posicion])
+    print('Este el número de la lista más uno', lista_3[posicion] + 1)
+
+for posicion in range(len(lista_3)):
+    print(lista_3[posicion] + lista_4[posicion])
+    
 for posicion in range(len(lista_numeros)):
     print(lista_numeros[posicion])
 

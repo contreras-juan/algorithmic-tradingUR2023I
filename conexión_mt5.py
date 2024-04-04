@@ -1,8 +1,8 @@
 import pandas as pd
 import MetaTrader5 as mt5
 
-nombre = 67043467
-clave = 'Genttly.2022'
+nombre = 67106046
+clave = 'Sebas.123'
 servidor = 'RoboForex-ECN'
 path = r'C:\Program Files\RoboForex - MetaTrader 5\terminal64.exe'
 

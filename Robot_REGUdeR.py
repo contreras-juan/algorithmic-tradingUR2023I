@@ -7,10 +7,10 @@ from datetime import timedelta
 from scipy import stats
 from sklearn.linear_model import LinearRegression
 
-nombre = 67043467
-clave = 'Genttly.2022'
+nombre = 67106046
+clave = 'Sebas.123'
 servidor = 'RoboForex-ECN'
-path = r'C:\Program Files\MetaTrader 5\terminal64.exe'
+path = r'C:\Program Files\RoboForex - MetaTrader 5\terminal64.exe'
 
 mt5.initialize(login = nombre, password = clave, server = servidor, path = path)
 
@@ -79,7 +79,7 @@ while True:
     params = np.append(modelo.intercept_,modelo.coef_)
     predictions = modelo.predict(X)
 
-    stats.coef_pval(modelo,X,y)
+    # stats.coef_pval(modelo,X,y)
 
     newX = pd.DataFrame({"Constant":np.ones(len(X))}).join(pd.DataFrame(X))
     MSE = (np.sum((y-predictions)**2))/(len(newX)-len(newX.columns))
@@ -99,10 +99,10 @@ while True:
 
 
     if pendiente > 0 and p_values[1] < 0.9:
-        lotaje = calculate_position_size(simbolo, tradeinfo, 0.05)
+        lotaje = 0.05
         enviar_operaciones(simbolo,mt5.ORDER_TYPE_BUY, 0,0,lotaje)
     if pendiente < 0 and p_values[1] < 0.9:
-        lotaje = calculate_position_size(simbolo, tradeinfo, 0.05)
+        lotaje = 0.05
         enviar_operaciones(simbolo,mt5.ORDER_TYPE_SELL, 0,0,lotaje)
 
     time.sleep(60)
