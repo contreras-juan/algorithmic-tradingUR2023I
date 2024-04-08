@@ -548,7 +548,7 @@ class Basic_funcs():
 
 
         """
-        history_orders=mt5.history_deals_get(from_date, datetime.datetime.now())
+        history_orders=mt5.history_deals_get(from_date, datetime.now())
         df=pd.DataFrame(list(history_orders),columns=history_orders[0]._asdict().keys())
         df['time'] = pd.to_datetime(df['time'], unit='s')
 
