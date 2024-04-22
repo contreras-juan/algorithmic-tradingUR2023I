@@ -65,6 +65,8 @@ def pivot_point_bot(symbol):
     enviar_operaciones_pendientes(symbol,mt5.ORDER_TYPE_BUY_STOP,t_resistance,0.7,timestamp)
 
 
-lista_simbs = ['XAUUSD','EURUSD','USDJPY','USDCAD','GBPJPY','GBPUSD','GBPNZD']
-for symbol in lista_simbs:
-    pivot_point_bot(symbol)
+while True:
+    lista_simbs = ['XAUUSD','EURUSD','USDJPY','USDCAD','GBPJPY','GBPUSD','GBPNZD']
+    for symbol in lista_simbs:
+        pivot_point_bot(symbol)
+    time.sleep(60*60*24)
