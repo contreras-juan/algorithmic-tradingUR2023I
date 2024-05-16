@@ -38,15 +38,15 @@ backtestin_1 = Backtest(data,Estrategia_simple,cash=10_000, exclusive_orders= Tr
 stats_bt1 = backtestin_1.run()
 backtestin_1.plot()
 
-data_1 = bfs.get_data_from_dates(2022,1,1,2022,3,1,'EURUSD',mt5.TIMEFRAME_H1,True)
+data_1 = bfs.get_data_from_dates(2022,1,1,2022,3,1,'GBPUSD',mt5.TIMEFRAME_H1,True)
 
-data_3 = bfs.get_data_from_dates(2020,3,15,2020,5,15,'EURUSD',mt5.TIMEFRAME_H1,True)
-data_4 = bfs.get_data_from_dates(2015,1,1,2015,3,1,'EURUSD',mt5.TIMEFRAME_H1,True)
-data_5 = bfs.get_data_from_dates(2023,7,1,2023,9,1,'EURUSD',mt5.TIMEFRAME_H1,True)
-data_6 = bfs.get_data_from_dates(2024,2,1,2024,4,1,'EURUSD',mt5.TIMEFRAME_H1,True)
-data_7 = bfs.get_data_from_dates(2021,10,1,2021,12,1,'EURUSD',mt5.TIMEFRAME_H1,True)
-data_8 = bfs.get_data_from_dates(2021,10,1,2021,12,1,'EURUSD',mt5.TIMEFRAME_H1,True)
-data_9 = bfs.get_data_from_dates(2019,7,21,2019,9,26,'EURUSD',mt5.TIMEFRAME_H1,True)
+data_3 = bfs.get_data_from_dates(2020,3,15,2020,5,15,'GBPUSD',mt5.TIMEFRAME_H1,True)
+data_4 = bfs.get_data_from_dates(2015,1,1,2015,3,1,'GBPUSD',mt5.TIMEFRAME_H1,True)
+data_5 = bfs.get_data_from_dates(2023,7,1,2023,9,1,'GBPUSD',mt5.TIMEFRAME_H1,True)
+data_6 = bfs.get_data_from_dates(2024,2,1,2024,4,1,'GBPUSD',mt5.TIMEFRAME_H1,True)
+data_7 = bfs.get_data_from_dates(2021,10,1,2021,12,1,'GBPUSD',mt5.TIMEFRAME_H1,True)
+data_8 = bfs.get_data_from_dates(2021,10,1,2021,12,1,'GBPUSD',mt5.TIMEFRAME_H1,True)
+data_9 = bfs.get_data_from_dates(2019,7,21,2019,9,26,'GBPUSD',mt5.TIMEFRAME_H1,True)
 
 lista_datos = [data_1,data_3,data_6,data_5,data_7,data_8]
 
@@ -143,7 +143,7 @@ stats_rsi_opt, hm = backtesting_rsi_ema.optimize(rsi_period = [6,12,14,24],
                                              maximize='Sharpe Ratio', return_heatmap=True)
 
 class Estrategia_ema_rsi(Strategy):
-    rsi_period = 24
+    rsi_period = 14
     ema_period = 300    
     umbral_sup_dif_rsi = 9.758204257059345
     umbral_inf_dif_rsi = -9.760399719788046
