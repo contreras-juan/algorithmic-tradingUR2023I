@@ -31,6 +31,14 @@ print(lista1)
 
 lista1[2] = 10.82
 
+###################### Tuplas ##############
+
+mi_segunda_lista = ['Sebastián', 34, False, [1, 'Hola', True]]
+mi_tupla1 = (1,mi_segunda_lista,True)
+print(mi_tupla1)
+mi_tupla1[1][1] = 33
+print(mi_tupla1)
+
 ###################### Diccionarios ##############
 
 mi_datos = {'nombre':'Sebastian','edad': 32, 'ciudad':'Medellín'}
@@ -63,7 +71,40 @@ print(data_ventas)
 data_ventas.head(2)
 data_ventas.tail(2)
 
+data_close = pd.DataFrame.from_dict(dict_ejemplo,orient='index',columns=['close'])
+data_close['date'] = data_close.index
+data_close = data_close.reset_index(drop=True)
+print(data_close)
+
+data_close['date']
+data_close['date'].iloc[3:]
+data_close['date'].iloc[-1]
+data_close.iloc[-3:]
+
 ######################## Ciclo for ###################
+
+lista_num1 = [1,2,3,4,5,6,7,8,9,10]
+lista_num2 = [1,2,3,4,5,6,7]
+
+# print(len(lista_num1))
+print(range(len(lista_num1)))
+
+
+for i in range(len(lista_num2)):
+  print(f'Estamos sumando la posición {i} de las listas')
+  print(lista_num1[i] + lista_num2[i])
+
+lista_num1 = [1,2,3,4,5,6,7,8,9,10]
+lista_num2 = [1,2,3,4,5,6,7]
+
+# print(len(lista_num1))
+print(range(len(lista_num1)))
+
+
+for i in range(len(lista_num1)):
+  for j in range(len(lista_num2)):
+    print(f'Estamos sumando la posición {i} de la lista1 con el elemento {j}')
+    print(lista_num1[i] + lista_num2[j])
 
 lista_numeros = [1,2,3,4,5]
 
