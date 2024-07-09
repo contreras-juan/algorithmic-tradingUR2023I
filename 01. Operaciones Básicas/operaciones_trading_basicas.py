@@ -139,6 +139,95 @@ for i in range(len(lista_tickets)):
     
 ##################################################################
 
+list_of_symbols = ['EURUSD','GBPUSD','XAUUSD','NVDA','AUDUSD']
+for symbol in list_of_symbols:
+    for i in range(0,10):
+        oeracion_1 = {
+                    "action": mt5.TRADE_ACTION_DEAL,
+                    "symbol": symbol,
+                    "volume": 0.02,
+                    "type": mt5.ORDER_TYPE_SELL,
+                    "magic": 202407,
+                    "comment": f"Sebastian_{i}",
+                    "type_filling": mt5.ORDER_FILLING_FOK}
+
+        resultado = mt5.order_send(oeracion_1)
+
+list_of_symbols = ['EURUSD','GBPUSD','XAUUSD','NVDA','AUDUSD']
+for symbol in list_of_symbols:
+    for i in range(0,10):
+        if symbol == 'EURUSD':
+            type_op = mt5.ORDER_TYPE_SELL
+        else:
+            type_op = mt5.ORDER_TYPE_BUY
+        oeracion_1 = {
+                    "action": mt5.TRADE_ACTION_DEAL,
+                    "symbol": symbol,
+                    "volume": 0.02,
+                    "type": type_op,
+                    "magic": 202407,
+                    "comment": f"Sebastian_{i}",
+                    "type_filling": mt5.ORDER_FILLING_FOK}
+
+        resultado = mt5.order_send(oeracion_1)
+        print(resultado)
+
+open_positions = mt5.positions_get()
+df_positions = pd.DataFrame(list(open_positions), columns = open_positions[0]._asdict().keys())
+
+# Sell 1 / 0 Compra
+
+################################################# Actualización 202407 ######################################
+for operacion in df_positions['ticket'].tolist():
+    df_operacion = df_positions[df_positions['ticket'] == operacion]
+    tipo_op = df_operacion['type'].iloc[0]
+    symol_op = df_operacion['symbol'].iloc[0]
+    vol_op = df_operacion['volume'].iloc[0]
+
+    if tipo_op == 1:
+        op_cierre = mt5.ORDER_TYPE_BUY
+    else:
+        op_cierre = mt5.ORDER_TYPE_SELL
+    
+    operacion_close = {
+        "action": mt5.TRADE_ACTION_DEAL,
+        "symbol": symol_op,
+        "volume": vol_op,
+        "type": op_cierre,
+        "position": operacion,
+        "type_filling": mt5.ORDER_FILLING_FOK}
+    
+    mt5.order_send(operacion_close)
+    
+# Cerrar con profit positivo
+open_positions = mt5.positions_get()
+df_positions = pd.DataFrame(list(open_positions), columns = open_positions[0]._asdict().keys())
+
+for operacion in df_positions['ticket'].tolist():
+    df_operacion = df_positions[df_positions['ticket'] == operacion]
+    tipo_op = df_operacion['type'].iloc[0]
+    symol_op = df_operacion['symbol'].iloc[0]
+    vol_op = df_operacion['volume'].iloc[0]
+    profit_op = df_operacion['profit'].iloc[0]
+
+    if tipo_op == 1:
+        op_cierre = mt5.ORDER_TYPE_BUY
+    else:
+        op_cierre = mt5.ORDER_TYPE_SELL
+    
+    operacion_close = {
+        "action": mt5.TRADE_ACTION_DEAL,
+        "symbol": symol_op,
+        "volume": vol_op,
+        "type": op_cierre,
+        "position": operacion,
+        "type_filling": mt5.ORDER_FILLING_FOK}
+    
+    if profit_op > 0:
+        mt5.order_send(operacion_close)
+    else:
+        print('Operación en Pérdida')
+
 import pandas as pd
 import MetaTrader5 as mt5
 
