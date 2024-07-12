@@ -1,6 +1,13 @@
 # algorithmic-tradingUR2023I
 Este repositorio contiene las funciones básicas del curso de Trading Algorítmico con Python y MT5 dictado en la Universidad del Rosario así como los robots desarrollados durante el curso
 
+# Update 1.1.1 26/06/2024
+
+The following Methods where updated:
+
+1. A new library is used for log execution: loguro
+2. The repo was organized into folders, each one containing a subject. The bots that uses Easy trading must to be modified in order to be executed.
+
 # Update 1.1 27/01/2024
 
 The following Methods where updated:
