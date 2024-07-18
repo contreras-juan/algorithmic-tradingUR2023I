@@ -2,6 +2,8 @@ import pandas as pd
 import MetaTrader5 as mt5
 import time
 # Clase Septiembre 6 del 2023
+from datetime import timedelta
+import datetime
 
 nombre = 67043467
 clave = 'Genttly.2022'
@@ -43,7 +45,7 @@ def remover_operacion_pendiente():
         resultado = mt5.order_send(close_pend_request)
         return resultado
 
-def enviar_operaciones(simbolo,tipo_operacion,precio, precio_tp,precio_sl,volumen_op):
+def enviar_operaciones(simbolo,tipo_operacion,precio, precio_tp,precio_sl,volumen_op,exp_int):
     orden_sl = {
                 "action": mt5.TRADE_ACTION_PENDING,
                 "symbol": simbolo,
@@ -54,7 +56,9 @@ def enviar_operaciones(simbolo,tipo_operacion,precio, precio_tp,precio_sl,volume
                 "tp": precio_tp,
                 "magic": 2024071,
                 "comment": 'PP',
-                "type_filling": mt5.ORDER_FILLING_IOC
+                "type_filling": mt5.ORDER_FILLING_IOC,
+                "type_time": mt5.ORDER_TIME_SPECIFIED,
+                "expiration": exp_int
                 }
 
     resultado = mt5.order_send(orden_sl)
@@ -80,24 +84,34 @@ def calculate_pivot_points(df):
 
     return f_support, s_support, t_support, f_resistance, s_resistance, t_resistance
 
+# hoy = datetime.datetime.now() + timedelta(hours=8)
+# hora_expiracion = hoy + timedelta(days = 1)
+# tiempo_exp = int(hora_expiracion.timestamp())
+
 while True:
     for simbolo in ['EURUSD','GBPUSD','USDJPY','GBPAUD','CHFJPY','XAUUSD']:
-        data = extraer_datos(simbolo,2,mt5.TIMEFRAME_D1)
-        data = data.head(1)
-        f_support, s_support, t_support, f_resistance, s_resistance, t_resistance = calculate_pivot_points(data)
+        if (datetime.datetime.now().hour > 7) and (datetime.datetime.now().hour < 12):
+            remover_operacion_pendiente()
+            data = extraer_datos(simbolo,2,mt5.TIMEFRAME_D1)
+            data = data.head(1)
+            f_support, s_support, t_support, f_resistance, s_resistance, t_resistance = calculate_pivot_points(data)
+            hoy = datetime.datetime.now() + timedelta(hours=8)
+            hora_expiracion = hoy + timedelta(days = 1)
+            tiempo_exp = int(hora_expiracion.timestamp())
+            # Estrategia de reversión a la media
+            print('Primer Soporte: ', f_support)
+            print('Segundo Soporte: ', s_support)
+            print('Primer Resistencia: ', f_resistance)
+            print('Segundo Resistencia: ', s_resistance)
 
-        # Estrategia de reversión a la media
-        print('Primer Soporte: ', f_support)
-        print('Segundo Soporte: ', s_support)
-        print('Primer Resistencia: ', f_resistance)
-        print('Segundo Resistencia: ', s_resistance)
+            tiempo_exp = int(hora_expiracion.timestamp())
+            enviar_operaciones(simbolo,mt5.ORDER_TYPE_BUY_LIMIT,f_support,f_support + 3*(f_support-s_support),s_support,0.5,tiempo_exp)
+            enviar_operaciones(simbolo,mt5.ORDER_TYPE_SELL_LIMIT,f_resistance,f_resistance - 3*(s_resistance - f_resistance),s_resistance,0.5,tiempo_exp)
 
-        enviar_operaciones(simbolo,mt5.ORDER_TYPE_BUY_LIMIT,f_support,f_support + 3*(f_support-s_support),s_support,0.5)
-        enviar_operaciones(simbolo,mt5.ORDER_TYPE_SELL_LIMIT,f_resistance,f_resistance - 3*(s_resistance - f_resistance),s_resistance,0.5)
+            # Estrategia de Momentum
 
-        # Estrategia de Momentum
-
-        enviar_operaciones(simbolo,mt5.ORDER_TYPE_BUY_STOP,s_resistance,s_resistance + 3*(s_resistance-f_resistance),f_resistance,0.5)
-        enviar_operaciones(simbolo,mt5.ORDER_TYPE_SELL_STOP,s_support,s_support - 3*(f_support - s_support),s_support,0.5)
-
+            enviar_operaciones(simbolo,mt5.ORDER_TYPE_BUY_STOP,s_resistance,s_resistance + 3*(s_resistance-f_resistance),f_resistance,0.5,tiempo_exp)
+            enviar_operaciones(simbolo,mt5.ORDER_TYPE_SELL_STOP,s_support,s_support - 3*(f_support - s_support),s_support,0.5,tiempo_exp)
+        else:
+            print('Fuera de horario')
     time.sleep(60*60*24)
