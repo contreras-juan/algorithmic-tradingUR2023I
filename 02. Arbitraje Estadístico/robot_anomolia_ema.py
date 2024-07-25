@@ -104,8 +104,7 @@ data['std'].mean()*3/2
 
 #Mirar a partir de qué punto "voy a considerar que un dato es anómalo"
 
-punto_sup = data['dif'].quantile(0.75)
-punto_inf = data['dif'].quantile(0.25)
+
 
 
 
@@ -114,6 +113,9 @@ while True:
     data2['media_movil'] = ta.ema(data2['close'],25)
     data2['dif'] = data2['close'] - data2['media_movil']
 
+    punto_sup = data['dif'].quantile(0.75)
+    punto_inf = data['dif'].quantile(0.25)
+    
     ultima_dif = data2['dif'].iloc[-1]
     ultima_media = data2['media_movil'].iloc[-1]
     last_close = data2['media_movil'].iloc[-1]

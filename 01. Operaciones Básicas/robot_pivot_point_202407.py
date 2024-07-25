@@ -1,7 +1,7 @@
 import pandas as pd
 import MetaTrader5 as mt5
 import time
-# Clase Septiembre 6 del 2023
+
 from datetime import timedelta
 import datetime
 
@@ -90,8 +90,8 @@ def calculate_pivot_points(df):
 
 while True:
     for simbolo in ['EURUSD','GBPUSD','USDJPY','GBPAUD','CHFJPY','XAUUSD']:
-        if (datetime.datetime.now().hour > 7) and (datetime.datetime.now().hour < 12):
-            remover_operacion_pendiente()
+        if (datetime.datetime.now().hour > 4) and (datetime.datetime.now().hour < 15):
+            # remover_operacion_pendiente()
             data = extraer_datos(simbolo,2,mt5.TIMEFRAME_D1)
             data = data.head(1)
             f_support, s_support, t_support, f_resistance, s_resistance, t_resistance = calculate_pivot_points(data)
