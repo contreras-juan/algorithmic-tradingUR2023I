@@ -138,10 +138,10 @@ data['signal'] = np.where( ((data['dif_rsi']>umbral_sup_dif_rsi) & (data['pendie
 # Descargar datos a excel #
 # data.to_excel(r'C:\Users\Admin\Documents\data_gbpusd.xlsx')
 
-def anomaly_rsi_(symbol,timeframe,vlr_rsi_inf,vlr_rsi_sup):
+def anomaly_rsi_(symbol,timeframe,vlr_rsi_inf,vlr_rsi_sup,rsi_period):
     
     data = extraer_datos(symbol,100,timeframe)
-    data['rsi'] = pt.rsi(data['close'],14)
+    data['rsi'] = pt.rsi(data['close'],rsi_period)
     ultimo_rsi = data['rsi'].iloc[-1]
     
     if ultimo_rsi > vlr_rsi_sup:
@@ -150,4 +150,4 @@ def anomaly_rsi_(symbol,timeframe,vlr_rsi_inf,vlr_rsi_sup):
         enviar_operaciones2(symbol,mt5.ORDER_TYPE_BUY,1.0)
 
 
-    
+anomaly_rsi_('EURSUD',mt5.TIMEFRAME_H1,90,30,22)    
